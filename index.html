@@ -21,16 +21,15 @@
   </div>
 
   <script>
-    // BigInt permite calcular factoriales grandes sin desbordarse como Number.
     function factorial(n) {
       if (n < 0n) {
         throw new Error("El factorial no está definido para números negativos.");
       }
 
-      let resultado = 1n;
+      let resultado = 1n;//con n quiere decir que es un BigInt, para poder calcular factoriales grandes sin desbordarse como Number.
 
       for (let i = 2n; i <= n; i++) {
-        resultado *= i;
+        resultado = resultado * i
       }
 
       return resultado;
@@ -41,8 +40,8 @@
       const salida = document.getElementById("resultado");
       const valor = input.value.trim();
 
-      salida.classList.remove("error");
-      salida.textContent = "";
+      salida.classList.remove("error"); // Limpio la clase de error antes de mostrar un nuevo resultado
+      salida.textContent = ""; // borro el texto que tenia
 
       if (valor === "") {
         salida.textContent = "Por favor, ingresa un número.";
@@ -50,11 +49,11 @@
         return;
       }
 
-      const numero = Number(valor);
+      const numero = Number(valor); // convierto el valor a numero
 
-      if (!Number.isInteger(numero) || numero < 0) {
+      if (!Number.isInteger(numero) || numero < 0) { // Compruebo si es un numero entero y si es mayoy que cero.
         salida.textContent = "Debes ingresar un número entero natural (0 o mayor).";
-        salida.classList.add("error");
+        salida.classList.add("error"); // Agrego la clase de error para cambiar el color del texto.
         return;
       }
 
@@ -64,9 +63,9 @@
         salida.classList.add("error");
         return;
       }
-      // Capturo el error si el numero es demasiado grande para calcular el factorial.
+      // Capturo el error si el numero es demasiado grande para calcular el factorial, lo use para que el programa no se quede cargando y se bloquee el navegador.
       try {
-        const resultado = factorial(BigInt(numero));
+        const resultado = factorial(BigInt(numero));// BigInt permite calcular factoriales grandes sin desbordarse como Number.
         salida.textContent = `${numero}! = ${resultado.toString()}`;
       } catch (error) {
         salida.textContent = error.message;
