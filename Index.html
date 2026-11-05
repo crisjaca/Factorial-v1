@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de Factorial</title>
+  <!-- ESTILO CSS -->
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+  <div class="card">
+    <h1>Programa para calcular el Factorial de un numero.</h1>
+    <p>Ingresa un número entero natural.</p>
+
+    <label for="numero">Número:</label>
+    <input type="number" id="numero" min="0" step="1" placeholder="Ejemplo: 5">
+
+    <button onclick="calcular()">Calcular factorial !</button>
+
+    <div id="resultado"></div>
+  </div>
+
+  <script>
+    // BigInt permite calcular factoriales grandes sin desbordarse como Number.
+    function factorial(n) {
+      if (n < 0n) {
+        throw new Error("El factorial no está definido para números negativos.");
+      }
+
+      let resultado = 1n;
+
+      for (let i = 2n; i <= n; i++) {
+        resultado *= i;
+      }
+
+      return resultado;
+    }
+
+    function calcular() {
+      const input = document.getElementById("numero");
+      const salida = document.getElementById("resultado");
+      const valor = input.value.trim();
+
+      salida.classList.remove("error");
+      salida.textContent = "";
+
+      if (valor === "") {
+        salida.textContent = "Por favor, ingresa un número.";
+        salida.classList.add("error");
+        return;
+      }
+
+      const numero = Number(valor);
+
+      if (!Number.isInteger(numero) || numero < 0) {
+        salida.textContent = "Debes ingresar un número entero natural (0 o mayor).";
+        salida.classList.add("error");
+        return;
+      }
+
+      // Límite por el lagueo
+      if (numero > 10000) {
+        salida.textContent = "Por seguridad, usa un número menor o igual a 10000.";
+        salida.classList.add("error");
+        return;
+      }
+      // Capturo el error si el numero es demasiado grande para calcular el factorial.
+      try {
+        const resultado = factorial(BigInt(numero));
+        salida.textContent = `${numero}! = ${resultado.toString()}`;
+      } catch (error) {
+        salida.textContent = error.message;
+        salida.classList.add("error");
+      }
+    }
+  </script>
+</body>
+</html>
